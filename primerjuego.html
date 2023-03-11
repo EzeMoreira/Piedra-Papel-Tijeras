@@ -1,12 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Time To Play</title>
-</head>
-<body>
-    <h2>A jugar</h2>
-</body>
+    <script src="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11
+    "></script>
+  </head>
+  <body>
+    <h2>A jugar!</h2>
+    <button onclick="playGame()">Clíck aquí</button>
+    <script>
+            let opciones = ["PIEDRA", "PAPEL", "TIJERA"];
+            let jugador = null;
+            let bot = null;
+
+            function playGame() {
+              SeleccionBot();
+              SeleccionJugador();
+            }
+
+            function SeleccionBot() {
+              return (bot = Math.round(Math.random() * 2));
+            }
+
+            const swalito = (text, title) =>
+              Swal.fire({
+                title,
+                text,
+                icon: "error",
+                showCancelButton: true,
+                confirmButtonText: "Cool",
+                cancelButtonText: "Cancel",
+              });
+
+              function SeleccionJugador() {
+              jugador = parseInt(
+                prompt("Ingrese opcion: 0 = PIEDRA | 1 = PAPEL | 2 = TIJERA")
+              );
+              if (!isNaN(jugador)) {
+                if (jugador >= 0 && jugador <= 2) {
+                  switch (true) {
+                    case jugador === bot:
+                      console.warn("EMPATE");
+                      break;
+                    case jugador === 0 && bot === 2:
+                      console.log("GANASTE");
+                      break;
+                    case jugador === 1 && bot === 0:
+                      console.log("GANASTE");
+                      break;
+                    case jugador === 2 && bot === 1:
+                      console.log("GANASTE");
+                      break;
+                    default:
+                      console.error("PERDISTE");
+                      break;
+                  }
+                  console.log(
+              `Elegiste ${opciones[jugador]} y el bot eligio ${opciones[bot]} `
+            );
+                } else swalito("No existe la opcion elegida", "pepe");
+              } else swalito("No existe la opcion elegida", "pepito");
+
+              swal.fire({
+          title: `Reiniciar el juego?`,
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Reiniciar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            reiniciarJuego();
+          }
+        });
+        
+        function reiniciarJuego(){
+          jugador = null;
+          bot = null;
+          playGame();
+        }
+      }
+    </script>
+  </body>
 </html>
